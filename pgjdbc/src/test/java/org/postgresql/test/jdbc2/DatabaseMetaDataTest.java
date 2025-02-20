@@ -68,15 +68,15 @@ public class DatabaseMetaDataTest {
       con = TestUtil.openDB();
     }
     TestUtil.createTable(con, "metadatatest",
-        "id int4, name text, updated timestamptz, colour text, quest text");
+        "id bigint, name text, updated timestamptz, colour text, quest text");
     TestUtil.createTable(con, "precision_test", "implicit_precision numeric");
     TestUtil.dropSequence(con, "sercoltest_b_seq");
     TestUtil.dropSequence(con, "sercoltest_c_seq");
     TestUtil.createTable(con, "sercoltest", "a int, b serial, c bigserial");
-    TestUtil.createTable(con, "\"a\\\"", "a int4");
-    TestUtil.createTable(con, "\"a'\"", "a int4");
+    TestUtil.createTable(con, "\"a\\\"", "a bigint");
+    TestUtil.createTable(con, "\"a'\"", "a bigint");
     TestUtil.createTable(con, "arraytable", "a numeric(5,2)[], b varchar(100)[]");
-    TestUtil.createTable(con, "intarraytable", "a int4[], b int4[][]");
+    TestUtil.createTable(con, "intarraytable", "a bigint[], b bigint[][]");
     TestUtil.createView(con, "viewtest", "SELECT id, quest FROM metadatatest");
     TestUtil.dropType(con, "custom");
     TestUtil.dropType(con, "_custom");
@@ -621,11 +621,11 @@ public class DatabaseMetaDataTest {
   @ParameterizedTest(name = "binary = {0}")
   void foreignKeys_whenSchemaArgNull_expectNoResults(BinaryMode binaryMode) throws Exception {
     try (Connection con1 = TestUtil.openDB()) {
-      TestUtil.createTable(con1, "people", "id int4 primary key, name text");
-      TestUtil.createTable(con1, "policy", "id int4 primary key, name text");
+      TestUtil.createTable(con1, "people", "id bigint primary key, name text");
+      TestUtil.createTable(con1, "policy", "id bigint primary key, name text");
 
       TestUtil.createTable(con1, "users",
-          "id int4 primary key, people_id int4, policy_id int4,"
+          "id bigint primary key, people_id bigint, policy_id bigint,"
               + "CONSTRAINT people FOREIGN KEY (people_id) references people(id),"
               + "constraint policy FOREIGN KEY (policy_id) references policy(id)");
 
@@ -650,11 +650,11 @@ public class DatabaseMetaDataTest {
   @ParameterizedTest(name = "binary = {0}")
   void foreignKeys(BinaryMode binaryMode) throws Exception {
     try (Connection con1 = TestUtil.openDB()) {
-      TestUtil.createTable(con1, "people", "id int4 primary key, name text");
-      TestUtil.createTable(con1, "policy", "id int4 primary key, name text");
+      TestUtil.createTable(con1, "people", "id bigint primary key, name text");
+      TestUtil.createTable(con1, "policy", "id bigint primary key, name text");
 
       TestUtil.createTable(con1, "users",
-          "id int4 primary key, people_id int4, policy_id int4,"
+          "id bigint primary key, people_id bigint, policy_id bigint,"
               + "CONSTRAINT people FOREIGN KEY (people_id) references people(id),"
               + "constraint policy FOREIGN KEY (policy_id) references policy(id)");
 
@@ -800,7 +800,7 @@ public class DatabaseMetaDataTest {
       assertEquals("sercoltest", rs.getString("TABLE_NAME"));
       assertEquals(rownum + 1, rs.getInt("ORDINAL_POSITION"));
       if (rownum == 0) {
-        assertEquals("int4", rs.getString("TYPE_NAME"));
+        assertEquals("bigint", rs.getString("TYPE_NAME"));
 
       } else if (rownum == 1) {
         assertEquals("serial", rs.getString("TYPE_NAME"));

@@ -53,7 +53,7 @@ public class UUIDTest extends BaseTest4 {
     assumeMinimumServerVersion(ServerVersion.v8_3);
 
     Statement stmt = con.createStatement();
-    stmt.execute("CREATE TEMP TABLE uuidtest(id uuid)");
+    stmt.execute("CREATE TABLE uuidtest(id uuid primary key)");
     stmt.close();
   }
 

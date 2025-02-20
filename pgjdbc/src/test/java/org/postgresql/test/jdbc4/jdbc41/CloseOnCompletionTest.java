@@ -28,7 +28,7 @@ class CloseOnCompletionTest {
   @BeforeEach
   void setUp() throws Exception {
     conn = TestUtil.openDB();
-    TestUtil.createTable(conn, "table1", "id integer");
+    TestUtil.createTable(conn, "table1", "id integer primary key");
   }
 
   @AfterEach

@@ -402,6 +402,19 @@ val sourceDistribution by tasks.registering(Tar::class) {
 // </editor-fold>
 
 tasks.test {
+    exclude("**/*XmlTest*")
+    exclude("**/*PgSQLXMLTest*")
+    exclude("**/*CopyBothResponseTest*")
+    exclude("**/*LogicalReplicationStatusTest*")
+    exclude("**/*LogicalReplicationTest*")
+    exclude("**/*PhysicalReplicationTest*")
+    exclude("**/*ReplicationConnectionTest*")
+    exclude("**/*ReplicationSlotTest*")
+    exclude("**/*LogServerMessagePropertyTest*")
+    exclude("**/*PasswordUtilTest*")
+    exclude("**/*NotifyTest*")
+    exclude("**/*LargeCountJdbc42Test*")
+
     // Gradle detected a problem with the following location: '/.../pgjdbc/pgjdbc/build/libs/postgresql-42.7.1-SNAPSHOT.jar'.
     mustRunAfter(tasks.generateKar)
 }

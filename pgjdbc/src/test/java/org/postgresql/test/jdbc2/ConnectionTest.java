@@ -47,8 +47,8 @@ class ConnectionTest {
   void setUp() throws Exception {
     con = TestUtil.openDB();
 
-    TestUtil.createTable(con, "test_a", "imagename name,image oid,id int4");
-    TestUtil.createTable(con, "test_c", "source text,cost money,imageid int4");
+    TestUtil.createTable(con, "test_a", "imagename text,image bigint, id bigint primary key");
+    TestUtil.createTable(con, "test_c", "source text, cost numeric, imageid bigint primary key");
 
     TestUtil.closeDB(con);
   }

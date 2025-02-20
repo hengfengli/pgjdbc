@@ -58,7 +58,7 @@ class BlobTest {
   @BeforeAll
   static void createLargeBlob() throws Exception {
     try (Connection con = TestUtil.openDB()) {
-      TestUtil.createTable(con, "testblob", "id name,lo oid");
+      TestUtil.createTable(con, "testblob", "id text primary key,lo bigint");
       con.setAutoCommit(false);
       LargeObjectManager lom = ((PGConnection) con).getLargeObjectAPI();
       long oid = lom.createLO(LargeObjectManager.READWRITE);

@@ -45,7 +45,7 @@ public class Jdbc3CallableStatementTest extends BaseTest4 {
     super.setUp();
     Statement stmt = con.createStatement();
     stmt.execute(
-        "create temp table numeric_tab (MAX_VAL NUMERIC(30,15), MIN_VAL NUMERIC(30,15), NULL_VAL NUMERIC(30,15) NULL)");
+        "create table numeric_tab (MAX_VAL NUMERIC(30,15), MIN_VAL NUMERIC(30,15), NULL_VAL NUMERIC(30,15) NULL)");
     stmt.execute("insert into numeric_tab values ( 999999999999999,0.000000000000001, null)");
     stmt.execute(
         "CREATE OR REPLACE FUNCTION mysum(a int, b int) returns int AS 'BEGIN return a + b; END;' LANGUAGE plpgsql");

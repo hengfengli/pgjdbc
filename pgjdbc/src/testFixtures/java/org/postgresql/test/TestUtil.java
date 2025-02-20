@@ -468,7 +468,7 @@ public class TestUtil {
       dropTable(con, table);
 
       // Now create the table
-      st.executeUpdate("create temp table " + table + " (" + columns + ")");
+      st.executeUpdate("create table " + table + " (" + columns + ")");
     } finally {
       closeQuietly(st);
     }
@@ -488,7 +488,7 @@ public class TestUtil {
       String unlogged = haveMinimumServerVersion(con, ServerVersion.v9_1) ? "UNLOGGED" : "";
 
       // Now create the table
-      st.executeUpdate("CREATE " + unlogged + " TABLE " + table + " (" + columns + ")");
+      st.executeUpdate("CREATE TABLE " + table + " (" + columns + ")");
     } finally {
       closeQuietly(st);
     }
@@ -653,10 +653,10 @@ public class TestUtil {
     try {
       if (con.getAutoCommit()) {
         // Not in a transaction so ignore error for missing object
-        stmt.executeUpdate("DROP " + type + " IF EXISTS " + name + " CASCADE");
+        stmt.executeUpdate("DROP " + type + " IF EXISTS " + name + "");
       } else {
         // In a transaction so do not ignore errors for missing object
-        stmt.executeUpdate("DROP " + type + " " + name + " CASCADE");
+        stmt.executeUpdate("DROP " + type + " " + name + "");
       }
     } finally {
       closeQuietly(stmt);

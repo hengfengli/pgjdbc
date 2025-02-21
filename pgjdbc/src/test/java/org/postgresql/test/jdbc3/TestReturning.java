@@ -102,7 +102,7 @@ public class TestReturning extends BaseTest4 {
       ResultSet rs = stmt.getGeneratedKeys();
       assertNotNull(rs);
       assertTrue(rs.next());
-      assertEquals(1, rs.getInt(1));
+      assertEquals(1, rs.getLong(1));
     } catch (SQLException e) {
       if ( !exceptionExpected ) {
         fail("error getting column names: " + e.getMessage());

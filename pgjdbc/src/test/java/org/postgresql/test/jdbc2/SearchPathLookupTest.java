@@ -56,9 +56,13 @@ class SearchPathLookupTest {
       assertTrue(rs.next());
       assertEquals(oid, rs.getInt(1));
       assertFalse(rs.next());
+      TestUtil.dropTable(con, "first_schema.x");
       TestUtil.dropSchema(con, "first_schema");
+      TestUtil.dropTable(con, "second_schema.x");
       TestUtil.dropSchema(con, "second_schema");
+      TestUtil.dropTable(con, "third_schema.x");
       TestUtil.dropSchema(con, "third_schema");
+      TestUtil.dropTable(con, "last_schema.x");
       TestUtil.dropSchema(con, "last_schema");
     } finally {
       if (stmt != null) {
@@ -92,9 +96,13 @@ class SearchPathLookupTest {
       assertTrue(rs.next());
       assertEquals(oid, rs.getInt(1));
       assertFalse(rs.next());
+      TestUtil.dropTable(con, "first_schema.x");
       TestUtil.dropSchema(con, "first_schema");
+      TestUtil.dropTable(con, "second_schema.y");
       TestUtil.dropSchema(con, "second_schema");
+      TestUtil.dropTable(con, "third_schema.x");
       TestUtil.dropSchema(con, "third_schema");
+      TestUtil.dropTable(con, "last_schema.y");
       TestUtil.dropSchema(con, "last_schema");
     } finally {
       if (stmt != null) {
@@ -119,7 +127,9 @@ class SearchPathLookupTest {
       assertTrue(rs.next());
       assertEquals(oid, rs.getInt(1));
       assertFalse(rs.next());
+      TestUtil.dropTable(con, "first_schema.x");
       TestUtil.dropSchema(con, "first_schema");
+      TestUtil.dropTable(con, "second_schema.x");
       TestUtil.dropSchema(con, "second_schema");
     } finally {
       TestUtil.closeDB(con);

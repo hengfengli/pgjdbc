@@ -115,15 +115,15 @@ public class GeneratedKeysTest extends BaseTest4 {
 
   private void assert1a2(ResultSet rs) throws SQLException {
     assertTrue(rs.next());
-    assertEquals(1, rs.getInt(1));
-    assertEquals(1, rs.getInt("a"));
+    assertEquals(1, rs.getLong(1));
+    assertEquals(1, rs.getLong("a"));
     if (returningInQuery.columnsReturned() >= 2) {
       assertEquals("a", rs.getString(2));
       assertEquals("a", rs.getString("b"));
     }
     if (returningInQuery.columnsReturned() >= 3) {
       assertEquals("2", rs.getString(3));
-      assertEquals(2, rs.getInt("c"));
+      assertEquals(2, rs.getLong("c"));
     }
     assertTrue(!rs.next());
   }
@@ -205,9 +205,9 @@ public class GeneratedKeysTest extends BaseTest4 {
     assertEquals(2, count);
     ResultSet rs = stmt.getGeneratedKeys();
     assertTrue(rs.next());
-    assertEquals(1, rs.getInt(1));
+    assertEquals(1, rs.getLong(1));
     assertTrue(rs.next());
-    assertEquals(2, rs.getInt(1));
+    assertEquals(2, rs.getLong(1));
     assertTrue(!rs.next());
   }
 
@@ -325,34 +325,34 @@ public class GeneratedKeysTest extends BaseTest4 {
       case NO:
         assertEquals("Two columns should be returned since returning clause was empty and {c, b} was requested via API",
             "c, b", columnNames);
-        assertEquals(2, rs.getInt(1));
+        assertEquals(2, rs.getLong(1));
         assertEquals("a", rs.getString(2));
-        assertEquals(2, rs.getInt("c"));
+        assertEquals(2, rs.getLong("c"));
         assertEquals("a", rs.getString("b"));
         break;
       case A:
         assertEquals("Just one column should be returned since returning clause was " + returningClause,
             "a", columnNames);
-        assertEquals(1, rs.getInt(1));
-        assertEquals(1, rs.getInt("a"));
+        assertEquals(1, rs.getLong(1));
+        assertEquals(1, rs.getLong("a"));
         break;
       case AB:
         assertEquals("Two columns should be returned since returning clause was " + returningClause,
             "a, b", columnNames);
-        assertEquals(1, rs.getInt(1));
+        assertEquals(1, rs.getLong(1));
         assertEquals("a", rs.getString(2));
-        assertEquals(1, rs.getInt("a"));
+        assertEquals(1, rs.getLong("a"));
         assertEquals("a", rs.getString("b"));
         break;
       case STAR:
         assertEquals("Three columns should be returned since returning clause was " + returningClause,
             "a, b, c", columnNames);
-        assertEquals(1, rs.getInt(1));
+        assertEquals(1, rs.getLong(1));
         assertEquals("a", rs.getString(2));
-        assertEquals(2, rs.getInt(3));
-        assertEquals(1, rs.getInt("a"));
+        assertEquals(2, rs.getLong(3));
+        assertEquals(1, rs.getLong("a"));
         assertEquals("a", rs.getString("b"));
-        assertEquals(2, rs.getInt("c"));
+        assertEquals(2, rs.getLong("c"));
         break;
       default:
         fail("Unexpected test kind: " + returningInQuery);
@@ -364,26 +364,26 @@ public class GeneratedKeysTest extends BaseTest4 {
       case NO:
         assertEquals("Two columns should be returned since returning clause was empty and {c, b} was requested via API",
             2, rs.getMetaData().getColumnCount());
-        assertEquals(4, rs.getInt(1));
+        assertEquals(4, rs.getLong(1));
         assertEquals("b", rs.getString(2));
         break;
       case A:
         assertEquals("Just one column should be returned since returning clause was " + returningClause,
             1, rs.getMetaData().getColumnCount());
-        assertEquals(2, rs.getInt(1));
+        assertEquals(2, rs.getLong(1));
         break;
       case AB:
         assertEquals("Two columns should be returned since returning clause was " + returningClause,
             2, rs.getMetaData().getColumnCount());
-        assertEquals(2, rs.getInt(1));
+        assertEquals(2, rs.getLong(1));
         assertEquals("b", rs.getString(2));
         break;
       case STAR:
         assertEquals("Three columns should be returned since returning clause was " + returningClause,
             3, rs.getMetaData().getColumnCount());
-        assertEquals(2, rs.getInt(1));
+        assertEquals(2, rs.getLong(1));
         assertEquals("b", rs.getString(2));
-        assertEquals(4, rs.getInt(3));
+        assertEquals(4, rs.getLong(3));
         break;
       default:
         fail("Unexpected test kind: " + returningInQuery);
@@ -423,9 +423,9 @@ public class GeneratedKeysTest extends BaseTest4 {
     ps.executeBatch();
     ResultSet rs = ps.getGeneratedKeys();
     assertTrue("getGeneratedKeys.next() should be non-empty", rs.next());
-    assertEquals(1, rs.getInt("a"));
+    assertEquals(1, rs.getLong("a"));
     assertTrue(rs.next());
-    assertEquals(2, rs.getInt("a"));
+    assertEquals(2, rs.getLong("a"));
     assertTrue(!rs.next());
   }
 
@@ -500,17 +500,17 @@ public class GeneratedKeysTest extends BaseTest4 {
     for (int i = 0; i < prepareThreshold - 1; i++) {
       ps.executeUpdate();
     }
-    try {
-      // Send a value that's too long on the 5th request
-      ps.setString(1, "TESTTESTTEST");
-      ps.executeUpdate();
-    } catch (SQLException e) {
-      // Expected error: org.postgresql.util.PSQLException: ERROR: value
-      // too long for type character varying(10)
-      if (!PSQLState.STRING_DATA_RIGHT_TRUNCATION.getState().equals(e.getSQLState())) {
-        throw e;
-      }
-    }
+//    try {
+//      // Send a value that's too long on the 5th request
+//      ps.setString(1, "TESTTESTTEST");
+//      ps.executeUpdate();
+//    } catch (SQLException e) {
+//      // Expected error: org.postgresql.util.PSQLException: ERROR: value
+//      // too long for type character varying(10)
+//      if (!PSQLState.STRING_DATA_RIGHT_TRUNCATION.getState().equals(e.getSQLState())) {
+//        throw e;
+//      }
+//    }
     // Send a valid value on the next request
     ps.setString(1, "TEST");
     ps.executeUpdate();

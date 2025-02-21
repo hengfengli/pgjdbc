@@ -66,7 +66,7 @@ class GetObjectTest {
   void setUp() throws Exception {
     conn = TestUtil.openDB();
     TestUtil.createTable(conn, "table1", "varchar_column varchar(16), "
-            + "char_column char(10), "
+            + "char_column text, "
             + "boolean_column boolean,"
             + "smallint_column smallint,"
             + "integer_column integer,"

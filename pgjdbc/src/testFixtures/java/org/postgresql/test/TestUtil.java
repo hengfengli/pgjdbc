@@ -642,6 +642,13 @@ public class TestUtil {
   }
 
   /*
+   * Helper - drops an index
+   */
+  public static void dropIndex(Connection con, String index) throws SQLException {
+    dropObject(con, "INDEX", index);
+  }
+
+  /*
    * Drops a function with a given signature.
    */
   public static void dropFunction(Connection con, String name, String arguments) throws SQLException {

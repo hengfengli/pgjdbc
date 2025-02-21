@@ -70,7 +70,7 @@ public class UpsertTest extends BaseTest4 {
   @Test
   public void testUpsertDoNothingConflict() throws SQLException {
     int count = executeUpdate(
-        "INSERT INTO test_statement(i, t) VALUES (42, '42') ON CONFLICT DO NOTHING");
+        "INSERT INTO test_statement(i, t) VALUES (42, '42') ON CONFLICT(i) DO NOTHING");
     assertEquals("insert on CONFLICT DO NOTHING should report 0 modified rows on CONFLICT",
         0, count);
   }
@@ -78,7 +78,7 @@ public class UpsertTest extends BaseTest4 {
   @Test
   public void testUpsertDoNothingNoConflict() throws SQLException {
     int count = executeUpdate(
-        "INSERT INTO test_statement(i, t) VALUES (43, '43') ON CONFLICT DO NOTHING");
+        "INSERT INTO test_statement(i, t) VALUES (43, '43') ON CONFLICT(i) DO NOTHING");
     assertEquals("insert on conflict DO NOTHING should report 1 modified row on plain insert",
         1, count);
   }
@@ -86,7 +86,7 @@ public class UpsertTest extends BaseTest4 {
   @Test
   public void testUpsertDoUpdateConflict() throws SQLException {
     int count = executeUpdate(
-        "INSERT INTO test_statement(i, t) VALUES (42, '42') ON CONFLICT(i) DO UPDATE SET t='43'");
+        "INSERT INTO test_statement(i, t) VALUES (42, '42') ON CONFLICT(i) DO UPDATE SET i=excluded.i, t=excluded.t");
     assertEquals("insert ON CONFLICT DO UPDATE should report 1 modified row on CONFLICT",
         1, count);
   }
@@ -94,7 +94,7 @@ public class UpsertTest extends BaseTest4 {
   @Test
   public void testUpsertDoUpdateNoConflict() throws SQLException {
     int count = executeUpdate(
-        "INSERT INTO test_statement(i, t) VALUES (43, '43') ON CONFLICT(i) DO UPDATE SET t='43'");
+        "INSERT INTO test_statement(i, t) VALUES (43, '43') ON CONFLICT(i) DO UPDATE SET i=excluded.i, t=excluded.t");
     assertEquals("insert on conflict do update should report 1 modified row on plain insert",
         1, count);
   }
@@ -153,14 +153,14 @@ public class UpsertTest extends BaseTest4 {
     PreparedStatement ps = null;
     try {
       ps = con.prepareStatement(
-          "insert into test_statement(i, t) values (?,?) ON CONFLICT (i) DO update set t=?");
+          "insert into test_statement(i, t) values (?,?) ON CONFLICT (i) DO update set i=excluded.i, t=excluded.t");
       ps.setInt(1, 50);
       ps.setString(2, "50U");
-      ps.setString(3, "50U");
+ //     ps.setString(3, "50U");
       ps.addBatch();
       ps.setInt(1, 53);
       ps.setString(2, "53U");
-      ps.setString(3, "53U");
+   //   ps.setString(3, "53U");
       ps.addBatch();
       int[] actual = ps.executeBatch();
       BatchExecuteTest.assertSimpleInsertBatch(2, actual);
